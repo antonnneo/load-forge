@@ -1,0 +1,44 @@
+{
+    "stages": [
+        {
+            "duration": "90s",
+            "target": 3
+        },
+        {
+            "duration": "90s",
+            "target": 3
+        },
+        {
+            "duration": "90s",
+            "target": 6
+        },
+        {
+            "duration": "90s",
+            "target": 6
+        },
+        {
+            "duration": "90s",
+            "target": 9
+        },
+        {
+            "duration": "90s",
+            "target": 9
+        },
+        {
+            "duration": "90s",
+            "target": 12
+        },
+        {
+            "duration": "90s",
+            "target": 12
+        },
+        {
+            "duration": "90s",
+            "target": 15
+        },
+        {
+            "duration": "90s",
+            "target": 15
+        }
+    ]
+}

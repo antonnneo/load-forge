@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.0
+    container_name: prometheus
+    user: root
+    volumes:
+      - ./prometheus/:/prometheus/
+    command:
+      - --web.enable-remote-write-receiver
+      - --config.file=/prometheus/config.yaml
+      - --log.level=debug
+    ports:
+      - 9090:9090
+    restart: always
+
+  grafana:
+    image: grafana/grafana-enterprise
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
