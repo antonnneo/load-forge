@@ -1,0 +1,15 @@
+# 1. Используем официальный образ golang для сборки
+FROM golang:1.24 AS builder
+
+WORKDIR /app
+COPY extensions.txt ./extensions.txt
+RUN go install go.k6.io/xk6/cmd/xk6@v0.20.1
+RUN EXTENSIONS=$(cat extensions.txt | sed 's/^/--with /' | tr '\n' ' ') && \
+    xk6 build $EXTENSIONS
+
+
+FROM alpine:3.22
+WORKDIR /app
+COPY --from=builder /app/k6 /usr/local/bin/k6
+COPY loadtests .env ./
+ENTRYPOINT ["/usr/local/bin/k6"]

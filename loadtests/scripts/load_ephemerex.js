@@ -29,5 +29,5 @@ export default function () {
     console.log(`Code: ${response.status}`);
     console.log(`Response: ${response.body}`);
   }
-  sleep(0.01);
+  sleep(1);
 }

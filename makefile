@@ -1,19 +1,16 @@
-extensions := $(shell cat extensions.txt | sed 's/^/--with /' | tr '\n' ' ')
-
-
-#  ---------------
-#  LOCAL RUN
-#  ---------------
 
 .PHONY: build
 build:
-	rm -f ./k6
-	xk6 build ${extensions}
-	sudo mv k6 /usr/local/bin
+	docker buildx build -f dockerfile.k6 . -t loadforge
 
 .PHONY: run
 run:
-	k6 run --config loadtests/profiles/default.json --out experimental-prometheus-rw loadtests/scripts/load_ephemerex.js
+	docker run --network ephemerex_ephnet \
+			loadforge \
+				run \
+					--config profiles/default.json \
+					--out experimental-prometheus-rw \
+					scripts/load_ephemerex.js
 
 .PHONY: infra
 infra:
