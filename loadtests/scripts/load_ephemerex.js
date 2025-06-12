@@ -13,21 +13,38 @@ export const options = {
 const messages = open(`${__ENV.MESSAGES}`).split('\n');
 
 export default function () {
-  const url = `${__ENV.HOST}`;
-  const randomMessage = randomItem(messages);
-  const payload = JSON.stringify({message_text: randomMessage});
-  const params = {
+  // preparing new message
+  let url = `${__ENV.HOST_NEW_MESSAGE}`;
+  let payload = JSON.stringify({message_text: randomItem(messages)});
+  let params = {
     headers: {'Content-Type': 'application/json'},
     timeout: 30000
   };
 
-  const response = http.post(url, payload, params);
+  // making new message
+  let response = http.post(url, payload, params);
   check(response, {'status is 200': (r) => r.status === 200,});
-  console.log(`Response: ${response.body}`);
 
-  if (response.status !== 200) {
-    console.log(`Code: ${response.status}`);
-    console.log(`Response: ${response.body}`);
-  }
+  // logging
+  const savedMessageId = JSON.parse(response.body).message_id
+  console.log(`Saved message id: ${savedMessageId}`);
+
+  // preparing to read message
+  url = `${__ENV.HOST_READ_MESSAGE}`;
+  payload = JSON.stringify({message_id: savedMessageId});
+  params = {
+    headers: {'Content-Type': 'application/json'},
+    timeout: 30000
+  };
+
+  // reading message
+  response = http.post(url, payload, params);
+  check(response, {'status is 200': (r) => r.status === 200,});
+
+  // logging
+  const readedMessage = JSON.parse(response.body).message_text
+  console.log(`Secret text: ${readedMessage}`);  
+
+  // pause between iterations
   sleep(1);
 }

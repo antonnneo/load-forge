@@ -1,3 +1,4 @@
+-include .env
 
 .PHONY: build
 build:
@@ -8,9 +9,9 @@ run:
 	docker run --network ephemerex_ephnet \
 			loadforge \
 				run \
-					--config profiles/default.json \
+					--config profiles/${PROFILE}.json \
 					--out experimental-prometheus-rw \
-					scripts/load_ephemerex.js
+					scripts/${SCRIPT}.js
 
 .PHONY: infra
 infra:
